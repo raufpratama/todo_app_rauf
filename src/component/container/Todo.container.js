@@ -1,51 +1,59 @@
-import React, { useState } from 'react'
-import { View, Text, TextInput, StyleSheet, Button } from 'react-native'
+import React, { useState, useContext, useEffect } from 'react'
+import { View, Text, TextInput, StyleSheet, Button, AsyncStorage } from 'react-native'
 
 import { colors } from '../../assets/utility/colors'
-import Todopresentational from '../presentational/Todo.presentational'
+import { times } from '../../assets/utility/time'
+import { Todopresentational } from '../presentational/Todo.presentational'
+import { AppContext } from '../../../App'
+import { token } from '../../assets/utility/tokens'
 
-export const Todocontainer = () => {
-    const [jabatan,setJabatan] = useState()
-    const [nama,setNama] = useState()
-    const [anggota,setAnggota] = useState([])
-    const [formStatus,setFormStatus] = useState(true)
+export const Todocontainer = props => {
+    const [state,changeState] = useContext(AppContext)
+    const [loading,setLoading] = useState(true)
 
-    const changeJabatan = (e) => {
-        setJabatan(e)
-    }
+    useEffect(() => {
+        getData()
+        return () => {
+            cleanup
+        };
+    }, [input])
 
-    const changeNama = (e) => {
-        setNama(e)
-    }
-
-    const submitAnggota = () => {
-        if(jabatan && nama) {
-            const new_data = {
-                nama:nama,
-                jabatan:jabatan,
-            }
-            const submit_data = [...anggota,new_data]
-            setAnggota(submit_data)
+    const getData = async() => {
+        let res = await AsyncStorage.getItem(token.STATE_TOKEN)
+        if(res) {
+            let parse_res = JSON.parse(res)
+            changeState({...state,parse_res})
+            setLoading(false)
         } else {
-            setFormStatus(false)
+            setLoading(false)
         }
     }
 
-    const content = (
-        // <View style={styles.container}>
-        //     <Text>Nama</Text>
-        //     <TextInput style={styles.txt_input} onChangeText={changeNama}></TextInput>
-        //     <Text>Jabatan</Text>
-        //     <TextInput style={[styles.txt_input,{borderBottomColor:formStatus ? 'black' : colors.error}]} onChangeText={changeJabatan}></TextInput>
-        //     <Button onPress={submitAnggota} title='submit'/>
-        //     {anggota ? anggota.map(anggotas => (
-        //         <>
-        //             <Text>{anggotas.nama}</Text>
-        //             <Text>{anggotas.jabatan}</Text>
-        //         </>
-        //     )) : null}
-        // </View>
-        <Todopresentational/>
+    function day () {
+        const date = new Date()
+        const date_hours = date.getHours()
+        if(date_hours < 4) {
+            return "evening"
+        } else if (date_hours < 11) {
+            return "morning"
+        } else if (date_hours < 16) {
+            return "day"
+        } else if(date_hours < 20) {
+            return "afternoon"
+        }
+    }
+
+    function time_rn () {
+        const date = new Date()
+        return `${times.month[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
+    }
+
+    let content = (
+        <Todopresentational
+            day={day}
+            time={time_rn}
+            navigation={props.navigation}
+        />
     )
 
     return content

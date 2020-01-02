@@ -1,6 +1,6 @@
 export const colors = {
     primary:'',
     error:'red',
-    placeholder:'gray',
+    placeholder:'#C7C7CD',
     white:'#ffff'
 }

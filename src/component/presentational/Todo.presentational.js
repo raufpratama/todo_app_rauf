@@ -1,17 +1,28 @@
-import React from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { 
     View, 
     Text, 
     StyleSheet,
-    Dimensions
+    Dimensions,
+    Image,
+    ActivityIndicator,
+    TouchableWithoutFeedback,
+    FlatList
 } from 'react-native'
-import { ScrollView, FlatList } from 'react-native-gesture-handler'
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler'
+import App, { AppContext } from '../../../App'
+import placeholder from '../../assets/images/place_holder.png'
+import Icon  from 'react-native-vector-icons/Ionicons'
+Icon.loadFont();
+
 import { colors } from '../../assets/utility/colors'
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
-const Todopresentational = () => {
+export const Todopresentational = props => {
+    const [isLoading,setLoading] = useState(true)
+    const [state,changeState] = useContext(AppContext)
     const dummy_data = [
         {
             id:"1",
@@ -31,51 +42,114 @@ const Todopresentational = () => {
         },
     ]
 
-    function render_item({item}) {
+    useEffect(() => {
+        setTimeout(() => {
+            setLoading(false)
+        }, 1000);
+    }, [])
+
+    function render_item_tasks({item}) {
         return (
-            <View style={styles.card_container}>
-            </View>
+            <Text key={item.id} style={[styles.txt_todo,{textDecorationLine:item.done ? 'line-through' : null}]}>
+                {item.todo}
+            </Text>
         )
     }
 
-    function day() {
-        const date = new Date()
-        const date_hours = date.getHours()
-        if(date_hours < 4) {
-            return "malam"
-        } else if (date_hours < 11) {
-            return "pagi"
-        } else if (date_hours < 16) {
-            return "siang"
-        } else if(date_hours < 20) {
-            return "sore"
-        }
+    function render_item({item}) {
+        return (
+            <TouchableWithoutFeedback onPress={()=> props.navigation.navigate('TodoDetail', {id:item.id})}>
+                <View key={item.id} style={[styles.card_container,{backgroundColor:item.bg_color}]}>
+                    <Text style={styles.txt_card_title}>
+                        {item.title}
+                    </Text>
+                    <FlatList
+                        data={item.tasks}
+                        renderItem={render_item_tasks}
+                        keyExtractor={(item,index)=>index.toString()}
+                    />
+                </View>
+            </TouchableWithoutFeedback>
+        )
     }
 
-    return (
-        <ScrollView style={styles.container}>
-            <View style={styles.container}>
-                <View style={styles.title_container}>
-                    <Text style={styles.txt_subtitle}>
-                        Halo, selamat {day()}{' '}
-                        <Text style={styles.nested_txt_subtitle}>
-                            Rauf
-                        </Text>
-                    </Text>
-                    <Text style={styles.txt_title}>
-                        Apa yang akan kamu lakukan hari ini ?
-                    </Text>
-                </View>
+    let add_button = (
+        <TouchableOpacity>
+            <View style={styles.btn_add}>
+                <Icon name="ios-add" color={colors.placeholder} size={20}/>
+            </View>
+        </TouchableOpacity>
+    )
+
+    let main_content = (
+        <View 
+            style={[styles.container]}
+        >
+            {state.data.length > 0 ? (
                 <FlatList
-                    data={dummy_data}
+                    data={state.data}
                     renderItem={render_item}
                     numColumns={2}
                     style={{margin:5}}
-                    contentContainerStyle={{alignItems:'center'}}
+                    keyExtractor={(item,index)=>index.toString()}
+                    contentContainerStyle={{alignItems:state > 1 ? 'center' : 'flex-start'}}
                 />
-            </View>
-        </ScrollView>
+            ) : (
+                <>
+                    <Image 
+                        source={placeholder} 
+                        style={styles.img_placeholder}
+                    />
+                        <Text 
+                            style={styles.txt_description} 
+                            numberOfLines={2}
+                        >
+                        You still don't have todo, let's add one !
+                    </Text>
+                    {add_button}
+                </>
+            )}  
+        </View>
     )
+
+    let content = <ActivityIndicator color={colors.error}/>
+
+    if(!isLoading) {
+        content = (
+            <ScrollView style={styles.container} contentContainerStyle={{flexGrow:1}}>
+                <View style={styles.container}>
+                    <View style={styles.title_container}>
+    
+                        {/* Header subtitle */}
+                            <Text style={styles.txt_subtitle}>
+                                Hello, good {props.day()}{' '}
+                                <Text style={styles.nested_txt_subtitle}>
+                                    Rauf
+                                </Text>
+                            </Text>
+                        {/* End of header subtitle */}
+    
+                        {/* Header title */}
+                            <Text style={styles.txt_title}>
+                                What will you do today ?
+                            </Text>
+                        {/* End of Header title */}
+                        
+                        {/* subtitle */}
+                        <Text style={{marginHorizontal:5}}>
+                            {props.time()}
+                        </Text>
+                        {/* end of subtitle */}
+
+                    </View>
+
+                    {main_content}
+                </View>
+            </ScrollView>
+        )
+    }
+
+    return content
 }
 
 const styles = StyleSheet.create({
@@ -99,6 +173,7 @@ const styles = StyleSheet.create({
         fontWeight:"bold"
     },
     card_container: {
+        padding:10,
         backgroundColor:colors.placeholder,
         width:screenWidth * 45/100,
         margin:7.5,
@@ -112,7 +187,46 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.30,
         shadowRadius: 4.65,
         elevation: 8,
+    },
+    flatlist_container: {
+        margin:5
+    },
+    flatlist_content_container:{
+        alignItems:'center'
+    },
+    img_placeholder : {
+        width:150,
+        height:150
+    },
+    txt_description:{
+        fontSize:12,
+        marginVertical:10,
+        color:colors.placeholder,
+        maxWidth:120
+    },
+    btn_add : {
+        borderRadius:20,
+        borderWidth:1,
+        width:30,
+        height:30,
+        borderColor:colors.placeholder,
+        justifyContent:'center',
+        alignItems:'center'
+    },
+    txt_btn_add : {
+        fontSize:20,
+        color:colors.placeholder
+    },
+    txt_card_title : {
+        fontWeight:"bold",
+        fontSize:16,
+        color:colors.white,
+        margin:5,
+        marginBottom:10
+    },
+    txt_todo: {
+        margin:2.5,
+        marginHorizontal:5,
+        fontSize:12
     }
 })
-
-export default Todopresentational

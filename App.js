@@ -16,37 +16,56 @@ import {
     StatusBar
 } from 'react-native';
 import {Todocontainer} from './src/component/container/Todo.container';
-import { MainApp } from './src/component/Root'
+import MainApp from './src/component/Root'
 
-const AppContext = createContext();
+export const AppContext = createContext();
 
 const App = () => {
-    const states = []
+    const states = {
+        data :[
+        {
+            id:213421,
+            title:'Trip To Paris',
+            created_on:'7 Nov 2019',
+            bg_color:"#FFA000",
+            tasks: [
+                {
+                    id:10,
+                    todo:'Ambil tiket',
+                    done:false,
+                },
+                {
+                    id:24213,
+                    todo:'Booking kamar',
+                    done:true
+                },
+            ]
+        },
+        {
+            id:21243,
+            title:'Pergi Umroh',
+            created_on:'7 Nov 2019',
+            bg_color:"#7B20A1",
+            tasks: [
+                {
+                    id:214,
+                    todo:'Ambil tiket',
+                    done:true,
+                },
+                {
+                    id:2134445,
+                    todo:'Booking kamar',
+                    done:false
+                },
+            ]
+        }
+    ]}
     const [state, changeState] = useState(states)
 
     return (
-        // <>   <StatusBar barStyle="dark-content" />   <SafeAreaView>     <ScrollView
-        // contentInsetAdjustmentBehavior="automatic"       style={styles.scrollView}>
-        // <Header />       {global.HermesInternal == null ? null : (         <View
-        // style={styles.engine}>           <Text style={styles.footer}>Engine:
-        // Hermes</Text>         </View>       )}       <View style={styles.body}>
-        // <View style={styles.sectionContainer}>           <Text
-        // style={styles.sectionTitle}>Step One</Text>           <Text
-        // style={styles.sectionDescription}>             Edit <Text
-        // style={styles.highlight}>App.js</Text> to change this             screen and
-        // then come back to see your edits.           </Text>         </View>
-        // <View style={styles.sectionContainer}>           <Text
-        // style={styles.sectionTitle}>See Your Changes</Text>           <Text
-        // style={styles.sectionDescription}>             <ReloadInstructions />
-        // </Text>         </View>         <View style={styles.sectionContainer}>
-        // <Text style={styles.sectionTitle}>Debug</Text>           <Text
-        // style={styles.sectionDescription}>             <DebugInstructions />
-        // </Text>         </View>         <View style={styles.sectionContainer}>
-        // <Text style={styles.sectionTitle}>Learn More</Text>           <Text
-        // style={styles.sectionDescription}>             Read the docs to discover what
-        // to do next:           </Text>         </View>         <LearnMoreLinks />
-        // </View>     </ScrollView>   </SafeAreaView> </>
-        <AppContext.Provider>
+        <AppContext.Provider
+            value={[state,changeState]}
+        >
             <MainApp/>
         </AppContext.Provider>
     );
