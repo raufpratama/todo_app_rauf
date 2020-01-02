@@ -21,32 +21,7 @@ const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 
 export const Todopresentational = props => {
-    const [isLoading,setLoading] = useState(true)
     const [state,changeState] = useContext(AppContext)
-    const dummy_data = [
-        {
-            id:"1",
-            nama:""
-        },
-        {
-            id:"2",
-            nama:""
-        },
-        {
-            id:"3",
-            nama:""
-        },
-        {
-            id:"4",
-            nama:""
-        },
-    ]
-
-    useEffect(() => {
-        setTimeout(() => {
-            setLoading(false)
-        }, 1000);
-    }, [])
 
     function render_item_tasks({item}) {
         return (
@@ -114,7 +89,7 @@ export const Todopresentational = props => {
 
     let content = <ActivityIndicator color={colors.error}/>
 
-    if(!isLoading) {
+    if(!props.loading) {
         content = (
             <ScrollView style={styles.container} contentContainerStyle={{flexGrow:1}}>
                 <View style={styles.container}>

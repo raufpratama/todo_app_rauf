@@ -14,15 +14,14 @@ export const Todocontainer = props => {
     useEffect(() => {
         getData()
         return () => {
-            cleanup
         };
-    }, [input])
+    }, [])
 
     const getData = async() => {
         let res = await AsyncStorage.getItem(token.STATE_TOKEN)
         if(res) {
             let parse_res = JSON.parse(res)
-            changeState({...state,parse_res})
+            changeState(parse_res)
             setLoading(false)
         } else {
             setLoading(false)
@@ -53,6 +52,7 @@ export const Todocontainer = props => {
             day={day}
             time={time_rn}
             navigation={props.navigation}
+            loading={loading}
         />
     )
 

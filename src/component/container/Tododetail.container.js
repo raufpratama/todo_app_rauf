@@ -44,7 +44,7 @@ export const Tododetailcontainer = props => {
             let temp = await state.data.push(new_state)
             await changeDetailTodo({...detail_todo,new_state})
             await changeState({...state,temp})
-            await AsyncStorage.setItem(token,JSON.stringify(state))
+            await AsyncStorage.setItem(token.STATE_TOKEN,JSON.stringify(state))
             setLoading(false)
         } else {
             setLoading(false)
@@ -62,7 +62,7 @@ export const Tododetailcontainer = props => {
             const newest = detail_todo.tasks.push(new_todo_data)
             changeDetailTodo({...detail_todo,newest})
             await changeState({...state,temp_state})
-            await AsyncStorage.setItem(token,JSON.stringify(state))
+            await AsyncStorage.setItem(token.STATE_TOKEN,JSON.stringify(state))
             addTodo('')
         }
     }
@@ -78,7 +78,7 @@ export const Tododetailcontainer = props => {
             temp_state[stt_index] = detail_todo
             await changeDetailTodo({...detail_todo,detail_todo})
             await changeState({...state,temp_state})
-            await AsyncStorage.setItem(token,JSON.stringify(state))
+            await AsyncStorage.setItem(token.STATE_TOKEN,JSON.stringify(state))
         }
     }
 
@@ -89,7 +89,7 @@ export const Tododetailcontainer = props => {
         temp_state[stt_index] = detail_todo
         await changeDetailTodo({...detail_todo,temp})
         await changeState({...state,temp_state})
-        await AsyncStorage.setItem(token,JSON.stringify(state))
+        await AsyncStorage.setItem(token.STATE_TOKEN,JSON.stringify(state))
     }
 
     const onPressTodo = async(id) => {
@@ -99,7 +99,7 @@ export const Tododetailcontainer = props => {
         temp_state[stt_index] = detail_todo
         await changeDetailTodo({...detail_todo,detail_todo})
         await changeState({...state,temp_state})
-        await AsyncStorage.setItem(token,JSON.stringify(state))
+        await AsyncStorage.setItem(token.STATE_TOKEN,JSON.stringify(state))
     }
 
     const presentational = (
