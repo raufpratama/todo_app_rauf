@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { View, Text, TextInput, StyleSheet, Button } from 'react-native'
 
 import { colors } from '../../assets/utility/colors'
+import Todopresentational from '../presentational/Todo.presentational'
 
 export const Todocontainer = () => {
     const [jabatan,setJabatan] = useState()
@@ -31,19 +32,20 @@ export const Todocontainer = () => {
     }
 
     const content = (
-        <View style={styles.container}>
-            <Text>Nama</Text>
-            <TextInput style={styles.txt_input} onChangeText={changeNama}></TextInput>
-            <Text>Jabatan</Text>
-            <TextInput style={[styles.txt_input,{borderBottomColor:formStatus ? 'black' : colors.error}]} onChangeText={changeJabatan}></TextInput>
-            <Button onPress={submitAnggota} title='submit'/>
-            {anggota ? anggota.map(anggotas => (
-                <>
-                    <Text>{anggotas.nama}</Text>
-                    <Text>{anggotas.jabatan}</Text>
-                </>
-            )) : null}
-        </View>
+        // <View style={styles.container}>
+        //     <Text>Nama</Text>
+        //     <TextInput style={styles.txt_input} onChangeText={changeNama}></TextInput>
+        //     <Text>Jabatan</Text>
+        //     <TextInput style={[styles.txt_input,{borderBottomColor:formStatus ? 'black' : colors.error}]} onChangeText={changeJabatan}></TextInput>
+        //     <Button onPress={submitAnggota} title='submit'/>
+        //     {anggota ? anggota.map(anggotas => (
+        //         <>
+        //             <Text>{anggotas.nama}</Text>
+        //             <Text>{anggotas.jabatan}</Text>
+        //         </>
+        //     )) : null}
+        // </View>
+        <Todopresentational/>
     )
 
     return content
@@ -53,7 +55,8 @@ const styles = StyleSheet.create({
     container:{
         justifyContent:'center',
         alignItems:'center',
-        flex:1
+        flex:1,
+        backgroundColor:colors.white
     },
     txt_input : {
         minWidth:100,

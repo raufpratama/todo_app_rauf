@@ -76,7 +76,7 @@ import com.android.build.OutputFile
  */
 
 project.ext.react = [entryFile: "index.js",
-enableHermes: false, // clean and rebuild if changing] apply from : "../../node_modules/react-native/react.gradle"
+enableHermes: false] // clean and rebuild if changing] apply from : "../../node_modules/react-native/react.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -167,10 +167,10 @@ android {
     }
     // applicationVariants are e.g. debug, release
     applicationVariants.all {
-        variant - >variant
+        variant -> variant
             .outputs
             .each {
-                output - >
+                output ->
                 // For each separate APK per architecture, set a unique version code as
                 // described here:
                 // https://developer.android.com/studio/build/configure-apk-splits.html
@@ -209,4 +209,5 @@ apply from: file(
     "../../node_modules/@react-native-community/cli-platform-android/native_modules" +
     ".gradle"
 );
+apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 applyNativeModulesAppBuildGradle(project)

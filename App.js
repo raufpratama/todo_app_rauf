@@ -16,6 +16,7 @@ import {
     StatusBar
 } from 'react-native';
 import {Todocontainer} from './src/component/container/Todo.container';
+import { MainApp } from './src/component/Root'
 
 const AppContext = createContext();
 
@@ -46,7 +47,7 @@ const App = () => {
         // to do next:           </Text>         </View>         <LearnMoreLinks />
         // </View>     </ScrollView>   </SafeAreaView> </>
         <AppContext.Provider>
-            <Todocontainer/>
+            <MainApp/>
         </AppContext.Provider>
     );
 };
