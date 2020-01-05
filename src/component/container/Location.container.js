@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, Platform } from 'react-native'
+import { View, Text, Platform, PermissionsAndroid } from 'react-native'
 import Geolocation from '@react-native-community/geolocation'
 import { Locationpresentational } from '../presentational/Location.presentational'
 

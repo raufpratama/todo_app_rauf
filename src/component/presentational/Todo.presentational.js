@@ -33,7 +33,7 @@ export const Todopresentational = props => {
 
     function render_item({item}) {
         return (
-            <TouchableWithoutFeedback onPress={()=> props.navigation.navigate('TodoDetail', {id:item.id})}>
+            <TouchableWithoutFeedback key={item.id} onPress={()=> props.navigation.navigate('TodoDetail', {id:item.id})}>
                 <View key={item.id} style={[styles.card_container,{backgroundColor:item.bg_color}]}>
                     <Text style={styles.txt_card_title}>
                         {item.title}
@@ -41,7 +41,6 @@ export const Todopresentational = props => {
                     <FlatList
                         data={item.tasks}
                         renderItem={render_item_tasks}
-                        keyExtractor={(item,index)=>index.toString()}
                     />
                 </View>
             </TouchableWithoutFeedback>
@@ -66,7 +65,6 @@ export const Todopresentational = props => {
                     renderItem={render_item}
                     numColumns={2}
                     style={{margin:5}}
-                    keyExtractor={(item,index)=>index.toString()}
                     contentContainerStyle={{alignItems:state > 1 ? 'center' : 'flex-start'}}
                 />
             ) : (
