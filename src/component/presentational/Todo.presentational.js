@@ -39,6 +39,7 @@ export const Todopresentational = props => {
                         {item.title}
                     </Text>
                     <FlatList
+                        listKey={item.id}
                         data={item.tasks}
                         renderItem={render_item_tasks}
                     />

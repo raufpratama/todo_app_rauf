@@ -84,7 +84,7 @@ export const Tododetailcontainer = props => {
 
     const removeTodo = async(id) => {
         let temp_state = state.data
-        let temp = detail_todo.tasks.filter(tasks => tasks.id !== id)
+        let temp = detail_todo.tasks.filter(tasks => tasks.task_id !== id)
         detail_todo.tasks = temp
         temp_state[stt_index] = detail_todo
         await changeDetailTodo({...detail_todo,temp})
@@ -94,7 +94,7 @@ export const Tododetailcontainer = props => {
 
     const onPressTodo = async(id) => {
         let temp_state = state.data
-        let temp = detail_todo.tasks.findIndex(tasks => tasks.id == id)
+        let temp = detail_todo.tasks.findIndex(tasks => tasks.task_id == id)
         detail_todo.tasks[temp].done = !detail_todo.tasks[temp].done
         temp_state[stt_index] = detail_todo
         await changeDetailTodo({...detail_todo,detail_todo})

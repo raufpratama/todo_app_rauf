@@ -25,7 +25,7 @@ export const Tododetailpresentational = props => {
     function render_item({item}) {
         return (
                 <View style={styles.todo_container}>
-                    <TouchableOpacity onPress={()=>props.onpresstodo(item.id)}>
+                    <TouchableOpacity onPress={()=>props.onpresstodo(item.task_id)}>
                         <View style={styles.todo_container_child}>
                         <Image 
                             source={item.done ? check : unchecked} 
@@ -38,7 +38,7 @@ export const Tododetailpresentational = props => {
                         </Text>
                         </View>
                     </TouchableOpacity>
-                    <Icon name="ios-close" size={25} color={colors.placeholder} onPress={()=>props.removetodo(item.id)}/>
+                    <Icon name="ios-close" size={25} color={colors.placeholder} onPress={()=>props.removetodo(item.task_id)}/>
                 </View>
         )
     }
@@ -75,7 +75,7 @@ export const Tododetailpresentational = props => {
                             extraData={props.detail_todo}
                             renderItem={render_item}
                             style={styles.list_todo_container}
-                            keyExtractor={(item,index)=>item.id.toString()}
+                            keyExtractor={(item,index)=>item.task_id.toString()}
                         />
                     {/* end of list todo / tasks */}
 

@@ -30,12 +30,12 @@ const App = () => {
             bg_color:"#FFA000",
             tasks: [
                 {
-                    id:10,
+                    task_id:10,
                     todo:'Ambil tiket',
                     done:false,
                 },
                 {
-                    id:24213,
+                    task_id:24213,
                     todo:'Booking kamar',
                     done:true
                 },
@@ -48,12 +48,12 @@ const App = () => {
             bg_color:"#7B20A1",
             tasks: [
                 {
-                    id:214,
+                    task_id:214,
                     todo:'Ambil tiket',
                     done:true,
                 },
                 {
-                    id:2134445,
+                    task_id:2134445,
                     todo:'Booking kamar',
                     done:false
                 },
